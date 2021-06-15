@@ -37,18 +37,19 @@ def selfcenter():
     user = dao.getuser_by_username(conn,session['username'])
     qsdatas = dao.get_all_self_questions(conn,user[0])
     ansdatas = dao.get_all_self_answers(conn,user[0])
+    temp = []
+    for item in qsdatas:
+        item1 = list(item)
+        item1[3] = str(item1[3])
+        temp.append(item1)
     qsnum = len(qsdatas)
     ansnum = len(ansdatas)
-    questions = json.dumps(qsdatas,indent=4, sort_keys=True, default=str)
-    answers = json.dumps(ansdatas,indent=4, sort_keys=True, default=str)
     data = {
         'username':session['username'],
-        'questions':questions,
         'qsnum':qsnum,
-        'answers':answers,
         'ansnum':ansnum,
     }
-    return render_template('selfcenter.html',data=data)
+    return render_template('selfcenter.html',data=data,questions = qsdatas,answers = ansdatas)
 
 @app.route('/questions/<int:questionID>')
 def show_question(questionID):
@@ -56,6 +57,40 @@ def show_question(questionID):
     rows = dao.get_one_question(conn,questionID)
     conn.close()
     return rows[0][1]
+
+@app.route('/qslist')
+def qslist(page=1):
+    conn = dao.db_connect()
+    qslist = dao.get_certain_num_questions(conn,10,0)
+    qsnum = dao.get_questions_num(conn)
+    pagenum = int(qsnum[0] / 10)+2
+    ansnums = []
+    for item in qslist:
+        ansnums.append(dao.get_question_answernum(conn,item[0]))
+    conn.close()
+    qsl = zip(qslist,ansnums)
+    data = {
+        'username':session['username'],
+        'qsnum':qsnum,
+    }
+    return render_template('qslist.html',data = data,questions = qsl,pagenum=pagenum,nowpage=page)
+
+@app.route('/qslist/<int:page>')
+def qslistpage(page=1):
+    conn = dao.db_connect()
+    qslist = dao.get_certain_num_questions(conn,10,(page-1)*10)
+    qsnum = dao.get_questions_num(conn)
+    pagenum = int(qsnum[0] / 10)+2
+    ansnums = []
+    for item in qslist:
+        ansnums.append(dao.get_question_answernum(conn,item[0]))
+    conn.close()
+    qsl = zip(qslist,ansnums)
+    data = {
+        'username':session['username'],
+        'qsnum':qsnum,
+    }
+    return render_template('qslist.html',data = data,questions = qsl,pagenum=pagenum,nowpage=page)
 
 @app.route('/pushquestion',methods=['POST','GET'])
 def pushquestion():

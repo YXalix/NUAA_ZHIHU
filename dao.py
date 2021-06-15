@@ -79,8 +79,21 @@ def get_all_questions(conn):
     cursor.execute("SELECT * FROM questions")
     rows = cursor.fetchall()
     cursor.close()
-    for row in rows:
-        print(row)
+    return rows
+
+def get_questions_num(conn):
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM questions")
+    num = cursor.fetchone()
+    cursor.close()
+    return num
+
+def get_certain_num_questions(conn,num,offset=0):
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM questions LIMIT {num} offset {offset}".format(num=num,offset=offset))
+    rows = cursor.fetchall()
+    cursor.close()
+    return rows
 
 def get_one_question(conn,questionID):
     cursor = conn.cursor()
@@ -88,6 +101,13 @@ def get_one_question(conn,questionID):
     rows = cursor.fetchall()
     cursor.close()
     return rows
+
+def get_question_answernum(conn,questionID):
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM answers WHERE questionid={id}".format(id=questionID))
+    ansnum = cursor.fetchone()
+    cursor.close()
+    return ansnum
 
 def connect(conn,username,password):
     cursor = conn.cursor()

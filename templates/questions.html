@@ -30,14 +30,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@bootcss/v3.bootcss.com@1.0.9/assets/js/ie-emulation-modes-warning.js"></script>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-          <!-- 引入样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <!-- 引入组件库 -->
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
 
   <body>
@@ -58,7 +50,7 @@
             <li ><a href="/">首页</a></li>
             <li class="active"><a href="/pushquestion">提问</a></li>
             <li><a href="#">发现</a></li>
-            <li><a href="#">等你来答</a></li>
+            <li><a href="qslist">等你来答</a></li>
             <form class="navbar-form navbar-left" role="search" method="POST" action="{{ url_for('welcome') }}">
                 <div class="form-group">
                   <input type="text" class="form-control" placeholder="Search" required='please input content' name="content">
