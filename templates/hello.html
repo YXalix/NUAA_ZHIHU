@@ -1,0 +1,17 @@
+<!doctype html>
+<head>
+  <title>Hello from Flask</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>  
+</head>
+
+<body>
+{% if name %}
+  <h1>Hello {{ name }}!</h1>
+{% else %}
+  <h1>Hello, World!</h1>
+  <el-button icon="el-icon-search" circle>dsad </el-button>
+{% endif %}
+</body>
